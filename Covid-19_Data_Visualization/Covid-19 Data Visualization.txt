@@ -1,1 +1,44 @@
+#Importing Libraries 
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
+# Loading and show the dataset 
+datadf = pd.read_csv("case_time_series.csv")
+print(datadf)
+
+# Check the dataset there are 105  rows and 7 columns
+datadf.shape
+
+# Features in the Dataset
+columns = datadf.columns
+print(columns)
+
+# Data Type and number of observations in each column
+datadf.info()
+
+# Storing corona virus cases in variable
+Y = datadf.iloc[61:,1].values  # Confirmed
+R = datadf.iloc[61:,3].values  # Recovered
+D = datadf.iloc[61:,5].values  # Deceased
+X = datadf.iloc[61:,0]         # Stores 
+plt.plot(X,Y)
+
+# The aesthetics of the graph such as labels, titles, color and size
+plt.figure(figsize=(25,8))
+ax = plt.axes()
+ax.grid(linewidth=0.4, color='#8f8f8f')
+ 
+ax.set_facecolor("black")
+ax.set_xlabel('\nDate',size=20,color='#4bb4f2')
+ax.set_ylabel('Number of Confirmed Cases\n', size=20,color='#4bb4f2')
+plt.title("COVID-19 IN : Daily Confirmed\n", size=30,color='#28a9ff')
+ax.plot(X,Y, color='#1F77B4', marker='o', linewidth=4, markersize=15, markeredgecolor='#035E9B')
+
+# Plotting transmission Pie Chart to understand spreading reasons
+slices = [62, 142, 195]
+activities = ['Travel', 'Place Visit', 'Unknown']
+cols=['#4C8BE2','#00e061','#fe073a']
+exp = [0.2,0.02,0.02]
+plt.pie(slices,labels=activities, textprops=dict(size=15,color='black'), radius=1, colors=cols, autopct='%2.2f%%', explode=exp, shadow=True, startangle=90)
+plt.title('Transmission\n',color='#4fb4f2',size=20)
