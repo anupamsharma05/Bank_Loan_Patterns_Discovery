@@ -1,1 +1,49 @@
+#Importing Libraries 
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 
+# Loading and show the dataset 
+datadf = pd.read_csv("bank-Detail.csv")
+print(datadf)
+
+# Check the dataset there are 600  rows and 10 columns
+datadf.shape
+
+# Features in the Dataset
+columns = datadf.columns
+print(columns)
+
+# Data Type and number of observations in each column
+datadf.info()
+
+#Checking the proportion of Approved Loan Applications in the data
+datadf['Approved'].value_counts(normalize = True)
+
+# Plotting the Loan Status bar chart
+datadf['Approved'].value_counts(normalize = True).plot.bar()
+
+# Analyzing the categorical variables in the data
+category = ['Sex', 'Region','Income', 'Self_Employed', 'Married','Dependents','Graduate','Approved']
+for j in category : 
+     a = datadf[j].value_counts(normalize = True)
+     b = a*100
+     print(b)
+
+# Finding mean and median of the numerical columns and plotting the Distribution of the Numerical Variables in the dataset
+new_columns = ['Age', 'Income', 'Dependents']
+for j in new_columns :
+    print (j , round(datadf[j].mean(),2), round(datadf[j].median(),2))
+for idx, num_col in enumerate(new_columns):
+    sns.displot(x= num_col, data=datadf, bins=20, kde= True)
+    plt.show()
+
+#Relationship of the Variables with the Target Variable (Income) in the Data set
+num_columns = ['Age', 'Dependents']
+for idx,m in enumerate(num_columns):
+    plt.subplot(222)
+    a = datadf.groupby('Income')[m].median()
+    print(a)
+    a.plot.bar(title = m)
+    plt.show()
